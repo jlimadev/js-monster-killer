@@ -2,8 +2,17 @@ const ATTACK_VALUE = 10;
 const STRONG_ATTACK_VALUE = 15;
 const MONSTER_ATTACK_VALUE = 14;
 const HEAL_VALUE = 20;
+const DEFAULT_MAX_LIFE = 100;
+const MODE_ATTACK = 'ATTACK';
+const MODE_STRONG_ATTACK = 'STRONG_ATTACK'
 
-let chosenMaxLife = 100;
+const enteredValue = prompt('Welcome! Please, set the maximum life for you and the monster');
+let chosenMaxLife = parseInt(enteredValue);
+
+if (isNaN(chosenMaxLife) || chosenMaxLife <= 0) {
+  chosenMaxLife = DEFAULT_MAX_LIFE;
+}
+
 let currentMonsterHealth = chosenMaxLife; 
 let currentPlayerHealth = chosenMaxLife;
 let hasBonusLife = true;
@@ -11,15 +20,21 @@ let hasBonusLife = true;
 adjustHealthBars(chosenMaxLife);
 
 function attackHandler() {
-  attackMonster(ATTACK_VALUE);
+  attackMonster(MODE_ATTACK);
 }
 
 function strongAttackHandler() {
-  attackMonster(STRONG_ATTACK_VALUE);
+  attackMonster(MODE_STRONG_ATTACK);
 }
 
-function attackMonster(playerAttack) {
-  const monsterDemage = dealMonsterDamage(playerAttack);
+function attackMonster(mode) {
+  let maxDemage = 0;
+  if (mode === MODE_ATTACK) {
+    maxDemage = ATTACK_VALUE;
+  } else if (mode === MODE_STRONG_ATTACK) {
+    maxDemage = STRONG_ATTACK_VALUE;
+  }
+  const monsterDemage = dealMonsterDamage(maxDemage);
   currentMonsterHealth -= monsterDemage;
   endRound();
 }
@@ -43,6 +58,10 @@ function endRound() {
   } else if (currentPlayerHealth <= 0 && currentMonsterHealth <= 0) {
     alert('It is a Draw! You Died, but saved the city!')
   }
+
+  if (currentMonsterHealth <= 0 || currentPlayerHealth <= 0) {
+    reset();
+  }
 }
 
 function healPlayerHandler() {
@@ -55,6 +74,12 @@ function healPlayerHandler() {
   increasePlayerHealth(healValue);
   currentPlayerHealth += healValue;
   endRound();
+}
+
+function reset() {
+  currentMonsterHealth = chosenMaxLife; 
+  currentPlayerHealth = chosenMaxLife;
+  resetGame(chosenMaxLife); //vendor.js
 }
 
 attackBtn.addEventListener('click', attackHandler);
