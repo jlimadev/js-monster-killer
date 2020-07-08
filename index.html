@@ -8,12 +8,14 @@
     <link rel="stylesheet" href="assets/styles/app.css" />
     <script src="assets/scripts/vendor.js" defer></script>
     <script src="assets/scripts/app.js" defer></script>
+    <script src="assets/scripts/battle.js" defer></script>
+    <script src="assets/scripts/heal.js" defer></script>
     <script src="assets/scripts/log.js" defer></script>
   </head>
   <body>
     <section id="health-levels">
       <h2>MONSTER HEALTH</h2>
-      <progress id="monster-health" max="100" value="100">100%</progress>
+      <progress id="monster-health" max="100" value="100" data-label="100%">100%</progress>
       <h2>PLAYER HEALTH<span id="bonus-life">1</span></h2>
       <progress id="player-health" max="100" value="100">100%</progress>
     </section>
